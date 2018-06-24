@@ -12,7 +12,10 @@ class DownDockerCompose extends AbstractStep
      * Stop all hosts in a selected project
      *
      * @param string $project
-     * @param array  $projectConfig
+     * @param array $projectConfig
+     * @return string
+     *
+     * @throws \Exception
      */
     protected function _run(string $project, array $projectConfig)
     {
@@ -31,14 +34,14 @@ class DownDockerCompose extends AbstractStep
      * Delete hosts to host file
      *
      * @param string $project
+     *
+     * @throws \Exception
      */
-    private function deleteHosts($project)
+    private function deleteHosts(string $project)
     {
         $hostObject = Hosts::factory();
-        foreach ($this->config[$project]['repositories'] as $repositories) {
-            foreach ($repositories as $repositoryName => $repositoryPath) {
-                $hostObject->delete($this->makeRepositoryName([$repositoryName => $repositoryPath]));
-            }
+        foreach ($this->config[$project]['repositories'] as $repositoryName => $repositoryConfig) {
+            $hostObject->delete($this->makeRepositoryName([$repositoryName => $repositoryConfig]));
         }
     }
 

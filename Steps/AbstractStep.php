@@ -78,23 +78,26 @@ abstract class AbstractStep
     /**
      * Make repository name
      *
-     * @param array $repository - name and link to repository
+     * @param array $repository - name => config
+     * @return string
+     *
+     * @throws \Exception
      */
-    protected function makeRepositoryName($repository)
+    protected function makeRepositoryName(array $repository): string
     {
-        $repositoryKey  = key($repository);
-        $repositoryPath = current($repository);
+        $repositoryKey    = key($repository);
+        $repositoryConfig = current($repository);
 
         if (!is_numeric($repositoryKey)) {
-            $repositoryName = $repositoryKey;
-        } else {
-            $repositoryName = substr($repositoryPath,
-                strrpos($repositoryPath, '/') + 1,
-                strrpos($repositoryPath, '.') - strrpos($repositoryPath, '/') - 1
+            return (string)$repositoryKey;
+        } elseif (!empty($repositoryConfig['path'])) {
+            return (string) substr($repositoryConfig['path'],
+                strrpos($repositoryConfig['path'], '/') + 1,
+                strrpos($repositoryConfig['path'], '.') - strrpos($repositoryConfig['path'], '/') - 1
             );
         }
 
-        return $repositoryName;
+        throw new \Exception('We can\'t make name for your repository ' . var_export($repository, true));
     }
 
     /**
