@@ -41,7 +41,7 @@ class DownDockerCompose extends AbstractStep
     {
         $hostObject = Hosts::factory();
         foreach ($this->config[$project]['repositories'] as $repositoryName => $repositoryConfig) {
-            $hostObject->delete($this->makeRepositoryName([$repositoryName => $repositoryConfig]));
+            $hostObject->delete($this->makeHostNames([$repositoryName => $repositoryConfig]));
         }
     }
 

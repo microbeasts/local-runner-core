@@ -101,6 +101,30 @@ abstract class AbstractStep
     }
 
     /**
+     * Make host names by config
+     *
+     * @param array $repository - name => config
+     * @return array
+     *
+     * @throws \Exception
+     */
+    protected function makeHostNames(array $repository): array
+    {
+        $result = [];
+
+        $repositoryConfig = current($repository);
+        if (!empty($repositoryConfig['domains'])) {
+            foreach ($repositoryConfig['domains'] as $domain) {
+                $result[] = $domain;
+            }
+        } else {
+            $result[] = $this->makeRepositoryName($repository);
+        }
+
+        return $result;
+    }
+
+    /**
      * Run step
      *
      * @param string $project

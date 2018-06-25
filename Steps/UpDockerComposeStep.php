@@ -42,7 +42,7 @@ class UpDockerComposeStep extends AbstractStep
     {
         $hostObject = Hosts::factory();
         foreach ($this->config[$project]['repositories'] as $repositoryName => $repositoryConfig) {
-            $hostObject->add($this->makeRepositoryName([$repositoryName => $repositoryConfig]));
+            $hostObject->add($this->makeHostNames([$repositoryName => $repositoryConfig]));
         }
     }
 
